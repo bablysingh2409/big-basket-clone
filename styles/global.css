@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body,html {
+  background-color: #1B3C73;
+  margin: 0;
+  padding: 0;
+} */
+body,html {
+  /* background-color: #1B3C73; */
+  margin: 0;
+  /* padding: 0; */
+}
+
+.app {
+  @apply relative z-10 flex justify-center items-center flex-col px-6 ;
+} 
+
+
+.search_input {
+  @apply block w-full rounded-lg border border-gray-200 bg-white py-5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0;
+}
+
