@@ -10,6 +10,7 @@ function Banner() {
                alt='banner img'
                width={100}
                height={100}
+               priority='true'
                className='object-contain w-[100%]'
             />
         </div>

@@ -12,13 +12,14 @@ function CategoriesList() {
             {
                 categories.map((category,i)=>{
                   return (
-                    <Link href=`/${category}`>
-                    <div className='border-2 bg-white  border-[#1B3C73] rounded-3xl shadow-xl ' key={i} >
+                    // <Link href={`/categories/${category.toLowerCase()}`}>
+                    <div className='border-2 bg-white border-[#1B3C73] rounded-3xl shadow-xl' key={i} >
+                     <Link href={`/vege/${category.toLowerCase()}`}>
                     <h1 className='text-[#1B3C73] font-satoshi font-bold
-                    p-3 text-xl'>{category}</h1>
-                    
+                    p-3 text-xl'>{category}</h1>   
+                     </Link>
                     </div>
-                    </Link>
+                    // </Link>
                   )
                 })
             }
