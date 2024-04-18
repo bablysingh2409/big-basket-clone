@@ -1,4 +1,6 @@
+import { StateProvider} from './StateContext';
 import '../styles/global.css';
+import Cart from './components/Cart';
 import Nav from './components/Nav';
 
 
@@ -11,15 +13,13 @@ function RootLayout({ children }) {
     return (
         <html lang='en'>
             <body>
-               
-                    {/* <div className='main'>
-                       
-                    </div> */}
-                    <main className='app'>
-                        <Nav />
-                        {children}
-                    </main>
-                
+                     <main className='app'>
+                        <StateProvider>
+                           <Nav />
+                             {children}
+                           <Cart/>
+                        </StateProvider>
+                     </main>    
             </body>
         </html>
     )
