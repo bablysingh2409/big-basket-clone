@@ -1,9 +1,13 @@
 "use client"
 import React, { useState } from 'react'
-//importing hook
-import { useStateContext } from '@/app/StateContext';
+import { useStateContext } from '@/context/StateContext';
+import axios from 'axios';
+import { Base_url,Item_url,uri } from '@/constants/Links';
+
+
 function Page({params}) {
   const { cartCount, increaseCartCount, decreaseCartCount } = useStateContext()
+  const [Data,setData] = useState([])
     const id  = params.itemId;
     // console.log(id)
     // console.log({params})
@@ -53,11 +57,10 @@ function Page({params}) {
     ];
     const cartData = JSON.parse(localStorage.getItem("cartData"))
     const findItemInLocal = cartData.items.length > 0 ? cartData?.items?.find(item => item.id ===  parseInt(id)) : null
-    // console.log("findItemInLocal")
-    // console.log(findItemInLocal)
     const [selectedItemId,setSelectedItemId] = useState(null)
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [quantity,setQuantity] = useState(findItemInLocal? findItemInLocal?.quantity : 0)
-    const foundItem = items.find(item => item.id === parseInt(id));
+    // const foundItem = Data.find(item => item.id === parseInt(id));
     const decrement = (passid) => {
       let updatedCartData = JSON.parse(localStorage.getItem("cartData")) || {};
       const quan = updatedCartData?.items?.find((item)=>item.id === passid).quantity;
@@ -109,19 +112,47 @@ function Page({params}) {
       // console.log("items in cart",cartCount)
       setQuantity(1)
     }
-
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          `${Item_url}${params.itemId}`
+        );
+        setData(response?.data?.data[0]);
+        setAvailableQuantity(response?.data?.data[0].attributeSet?.inventory.availableToSell)
+  
+        console.log(params);
+        setSelectedPhoto(
+          response?.data?.data[0]?.attributeSet?.item?.itemImages[0]
+        );
+        setLoading(false); // Update loading state after data fetch
+        console.log(response?.data?.data[0])
+        console.log(response?.data?.data[0].identifier?.offerId)
+        setOfferId(response?.data?.data[0].identifier?.offerId)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
     return (
         <div>
             {
-                foundItem ? (
+                Data ? (
                     <div className='h-screen w-full px-3'>
                         <div className='h-[50%] w-full bg-blue-700 mt-2 '>
-                          <img className='h-full w-full object-cover' src={foundItem.pic}/>
+                    {Data?.attributeSet?.item?.itemImages.map((image, index) => (
+                      <img
+                            className="h-full w-full object-cover hover:cursor-pointer image-variants"
+                            key={index}
+                            src={Base_url + image}
+                            alt={`Image ${index}`}
+                            onClick={() => handlePhotoClick(index)}
+                       />
+                         ))}
                         </div>
-                        <div className='mt-3'><p className='text-sm font-medium'>{foundItem.name}</p></div>
-                        <div className='mt-2'><p className='text-xs font-light'>{foundItem.weight}</p></div>
+                        <div className='mt-3'><p className='text-sm font-medium'>{Data?.attributeSet?.item?.itemName}</p></div>
+                        <div className='mt-2'><p className='text-xs font-light'>weight</p></div>
                         <div className='mt-1 flex flex-row justify-between text-center items-center justify-center'>
-                         <p className='text-sm font-medium'>MRP {foundItem.price}</p>
+                         <p className='text-sm font-medium'>MRP {Data?.attributeSet?.mrp.pricePerUnit}</p>
                          <div className='bg-green-700 w-25 h-10 text-white font-semibold text-sm p-2 rounded-md cursor-pointer'>
                           {
                             quantity > 0 ? (

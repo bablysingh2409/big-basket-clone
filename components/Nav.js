@@ -1,18 +1,68 @@
 "use client"
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useStateContext } from '../StateContext'
+import { useStateContext } from '@/context/StateContext';
 
 
 function Nav() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.post(
+          "/users/workspace/subdomain",
+          {
+            mulltiplyURL: "stomize",
+          }
+        );
+        localStorage.setItem("uri",response?.data?.data?.uri?.uri);
+        localStorage.setItem("COD",response.data.data.cod);
+        localStorage.setItem("PartialPayment", response.data.data.partialPaymentPercentageOnCod);
+
+        localStorage.setItem(
+          "SellerDetails",
+          JSON.stringify(response.data.data)
+        );
+        localStorage.setItem("SellerWorkspace", response.data.data._id);
+        localStorage.setItem("SellerWorkspace", response.data.data._id);
+
+        localStorage.setItem("SellerId", response.data.data.customerId);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData().then(() => {
+      if (typeof window !== "undefined" && window.localStorage) {
+        const storedCartData = localStorage.getItem("cartData");
+        const sellerWorkspace = localStorage.getItem("SellerWorkspace");
+        const sellerId = localStorage.getItem("SellerId");
+        const uri = localStorage.getItem("uri");
+
+        // If cartData doesn't exist or items array doesn't exist, initialize cartData
+        if (!storedCartData) {
+          const cartData = {
+            items: [],
+            buyerEmail: "",
+            buyerGST: "",
+            sellerWorkspace: sellerWorkspace,
+            sellerId: sellerId,
+            uri: uri,
+            promoCodes: [],
+          };
+          localStorage.setItem("cartData", JSON.stringify(cartData));
+        }
+      }
+    });
+  }, []);
   const router = useRouter();
-  const { cartCount, increaseCartCount, decreaseCartCount, showNavAndCart,setShowNavAndCart } = useStateContext()
+  const { cartCount, increaseCartCount, decreaseCartCount, showNav, setShowNav} = useStateContext()
   const handleProfile = () => {
     router.push("/myProfile")
   }
   return (
-      showNavAndCart ? (<div className='bg-green-600 w-full px-2 py-3 rounded-b-xl'>
+      showNav ? (<div className='bg-green-600 w-full px-2 py-3 rounded-b-xl'>
       <div className='w-full flex justify-between items-center'>
         <div className=''>
           <Link href='/' className="flex gap-2 flex-center">

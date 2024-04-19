@@ -1,14 +1,18 @@
 "use client"
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { useStateContext } from '../StateContext'
+import { useStateContext } from '@/context/StateContext'
 
 function page() {
     const router = useRouter()
-    const { cartCount, increaseCartCount, decreaseCartCount, showNavAndCart,setShowNavAndCart } = useStateContext()
-    setShowNavAndCart(false)
+    const { cartCount, increaseCartCount, decreaseCartCount, showNav , setShowNav, showCart,setShowCart } = useStateContext()
+    setShowNav(false)
+    setShowCart(false)
     const handleBack = () => {
     router.push("/")
+    }
+    const handleEnterToProfile = () => {
+        router.push("/myProfileDetails")
     }
    return (
     <div className='w-full flex flex-col h-screen'>
@@ -43,7 +47,7 @@ function page() {
             <button
                 type="tel"
                 className=" h-full text-white bg-green-700 rounded-md py-2 px-3 leading-tight focus:outline-none focus:shadow-outline w-full"
-            >Continue</button>
+                onClick={()=>handleEnterToProfile()} >Continue</button>
             </div>
             <div className='h-1/3 w-full  py-2 px-7 text-xs'>            
             </div>

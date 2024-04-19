@@ -15,7 +15,8 @@ const cartData = cartDataString ? JSON.parse(cartDataString) : { items: [] };
 const cartLength = cartData.items.length ?? 0;
 
   const [cartCount,setCartCount] = useState(cartLength);
-  const [showNavAndCart,setShowNavAndCart]= useState(true)
+  const [showNav,setShowNav]= useState(true)
+  const [showCart,setShowCart] = useState(true)
   const increaseCartCount = () => {
     setCartCount(prevCount => prevCount + 1);
     console.log("state count of cart increasing",cartCount)
@@ -26,7 +27,7 @@ const cartLength = cartData.items.length ?? 0;
     console.log("state count of cart decreasing",cartCount)
   };
   return (
-    <StateContext.Provider value={{cartCount, increaseCartCount, decreaseCartCount, showNavAndCart, setShowNavAndCart}}>
+    <StateContext.Provider value={{cartCount, increaseCartCount, decreaseCartCount,showNav,setShowNav, showCart, setShowCart}}>
         {children}
     </StateContext.Provider>
   )

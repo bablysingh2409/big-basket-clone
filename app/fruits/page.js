@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { useStateContext } from '@/app/StateContext';
+import { useStateContext } from '@/context/StateContext'
 
 function page({addToCart}) {
   const {cartCount, increaseCartCount, decreaseCartCount } = useStateContext()

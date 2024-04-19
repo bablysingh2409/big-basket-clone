@@ -1,127 +1,57 @@
 "use client"
 import React from 'react'
-import { useRouter } from 'next/navigation'
-import { useStateContext } from '../StateContext'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useStateContext } from '@/context/StateContext.js'
+import { Base_url,Item_url,uri } from '@/constants/Links.js'
+import Link from 'next/link'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 const Category = () => {
-    const router = useRouter();
-    const { cartCount, increaseCartCount, decreaseCartCount, showNavAndCart,setShowNavAndCart } = useStateContext()
-    setShowNavAndCart(true)
-    const handleCategory = () => {
-        router.push('/fruits');
-    }
-    const categories  = [{
-      id:1,
-      pic:"https://cdn.grofers.com/app/images/category/cms_images/rc-upload-1702618300089-5",
-      name:"Vegetables & Fruits"
-    },{
-      id:2,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=450/app/images/category/cms_images/icon/14_1678949221877.png",
-      name:"Dairy & Breakfast"
-    },{
-      id:3,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=450/app/images/category/cms_images/icon/1237_1670927167688.png",
-      name:"Munchies"
-    },
-    {
-      id:4,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=450/app/images/category/cms_images/icon/332_1680269002502.png",
-      name:"Cold Drinks & Juices"
-    },
-    {
-      id:5,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/15_1676610279582.png",
-      name:"Instant & Frozen Food"
-    },
-    {
-      id:6,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/12_1670926444151.png",
-      name:"Tea, Coffee & Health Drinks"
-    },
-    {
-      id:7,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/9_1693202755712.png",
-      name:"Sweet Tooth"
-    },
-    {
-      id:8,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/16_1670926686695.png",
-      name:"Atta, Rice & Dal"
-    },
-    {
-      id:9,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/1557_1670927467171.png",
-      name:"Dry Fruits, Masala & Oil"
-    },
-    {
-      id:10,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/972_1678176421554.png",
-      name:"Sauces & Spreads"
-    },
-    {
-      id:11,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/4_1670925897047.png",
-      name:"Chicken, Meat & Fish"
-    },
-    {
-      id:12,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/229_1697713631135.png",
-      name:"Paan Corner"
-    },
-    {
-      id:13,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/175_1670926891460.png",
-      name:"Organic & Premium"
-    },
-    {
-      id:14,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/7_1688712826553.png",
-      name:"Baby Care"
-    },
-    {
-      id:15,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/287_1684822344371.png",
-      name:"Pharma & Wellness"
-    },
-    {
-      id:16,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/18_1692167327246.png",
-      name:"Cleaning Essentials"
-    },
-    {
-      id:17,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/1379_1670927201924.png",
-      name:"Home & Office"
-    },
-    {
-      id:18,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/163_1698986628342.png",
-      name:"Personal Care"
-    },
-    {
-      id:19,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/5_1686741293107.png",
-      name:"Pet Care"
-    },
-    {
-      id:20,
-      pic:"https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=540/app/images/category/cms_images/icon/888_1688712847171.png",
-      name:"Bakery & Biscuits"
-    },
-  ]
-    
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { cartCount, increaseCartCount, decreaseCartCount, showNav ,setShowNav, showCart, setShowCart } = useStateContext();
+
+  //useffect for cart
+  useEffect(()=>{
+    setShowNav(true)
+    setShowCart(true)
+   },[])
+
+  //useEffect for fetch categories
+   useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://api.mulltiply.com/offers/active-offers-stats-new/1l3wevj76lta69ma2?type=topCategories"
+        );
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const responseData = await response.json();
+        setData(responseData?.data);
+        console.log(responseData?.data)
+        setLoading(false); // Set loading to false when data is fetched
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false even if there's an error
+      }
+  };
+  })
+
   return (
     <div className='pt-2 px-1 '>
         <div className='mb-3 font-medium text-md'>Shop By Category</div>
-        <div className='grid grid-cols-4 md:grid-cols-6'>
+        <div className='grid grid-cols-4 md:grid-cols-6 '>
           {
-            categories.map((category) => (
-              <div className='flex flex-col p-1 rounded-sm' key={category.id} onClick={()=>handleCategory()}>
-              <div className='justify-center items-center bg-[#E5FCF9] rounded-md'>
-                 <img className='h-full w-full object-cover p-2' src={category.pic}/>
+            data.map((item,index) => (
+              <Link href={`/category/${item.items[0]?.categoriesTree[0]}`} key={index}>
+              <div className='flex flex-col p-1 rounded-sm'>
+              <div className='justify-center items-center bg-[#E5FCF9] rounded-md h-[70%]'>
+                 <img className='h-full w-full object-cover p-2' src={`${Base_url}${item?.items[0]?.itemImages[0]}`}/>
               </div>
-              <p className='text-center text-xs md:text-lg md:my-2'>{category.name}</p>
+              <p className='text-center text-xs md:text-lg md:my-2'>{item.category}</p>
             </div>
+            </Link>
             ))
           }
         </div>

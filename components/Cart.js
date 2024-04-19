@@ -1,10 +1,10 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { useStateContext } from '../StateContext'
+import { useStateContext } from '@/context/StateContext'
 const Cart = () => {
     const [cartData , setCartData] = useState()
-    const { cartCount, increaseCartCount, decreaseCartCount, showNavAndCart,setShowNavAndCart } = useStateContext()
+    const { cartCount, increaseCartCount, decreaseCartCount, showNav, setShowNav, showCart,setShowCart } = useStateContext()
     const router = useRouter();
     useEffect(()=>{
         const localData = JSON.parse(localStorage.getItem("cartData"));
@@ -15,7 +15,7 @@ const Cart = () => {
     }
 
   return (
-        (cartCount > 0 && showNavAndCart) ? (
+        (cartCount > 0 && showCart) ? (
         <div className="fixed bottom-0 mb-3 m-2 w-full h-16 rounded-md py-1 px-2 md:hidden">
             <div className='p-2 bg-green-700 w-full h-full rounded-xl flex flex-row justify-between' onClick={()=>handleCart()}>
                 <div className='flex flex-row'>
